@@ -19,10 +19,10 @@ while(isRunning):
     miles = float(input("Enter number of miles driven: "))
     #calculate miles per gallon and print the result
     mpg = miles / gallons 
-    print("The miles/gallon for this tank was", round(mpg,6))
-    #calculate the overall average mpg
+    print("The miles/gallon for this tank was:", round(mpg,6))
+    #calculate the overall average mpg sets to mpg if first iteration
     Ampg = (Ampg + mpg) / 2  if Ampg != 0 else mpg 
 
 #after exiting the loop, print the overall average mpg
 if(not isRunning):
-    print("The overall average miles/gallon was", round(Ampg,6))
+    print("The overall average miles/gallon was:", round(Ampg,6))
