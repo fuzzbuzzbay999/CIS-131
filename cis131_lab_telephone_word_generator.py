@@ -1,7 +1,14 @@
+'''
+script: cis131_lab_guess_the_number.py CIS 131 - lab 2
+action: This script generates words that translate to a phonenumber. Input a desired phone number and it will output all possible corresponding letter combinations minus q and z.
+Author: Declan Juliano
+Date:   9/16/2025
+'''
 
+#import product to calculate the cartiesian product. I was unsucessful in using forloops and other methods (trinary counter).
 from itertools import product
-#no q or z
-#dict of numbers and their associated letters
+
+#Dict of numbers and their associated letters, 0 and 1 are to absorb issues if 1 or 0 are entered bellow
 numpad ={
     '0': [' ',' ',' '],
     '1': [' ',' ',' '],
@@ -15,17 +22,19 @@ numpad ={
     '9': ['W', 'X', 'Y']
 
 }
+
+#Start
 isRunning = True
 
 while (isRunning):
-    #prompt user for a phone number or -1 to end
+    #Prompt user for a phone number or -1 to end
     teleNum = input("Please input your desired telephone number in the format xxx-xxxx (-1 top stop): ")
-    #if sentenial value then stop imediately 
+    #if sentinel value update isRunning and stop imediately
     if(teleNum == '-1'):
         isRunning = False
         break
 
-    #iterate through teleNum, and add all digits to teleIntOnly
+    #Iterate through teleNum, and add all digits to teleIntOnly (filtering the input)
     teleIntOnly = ""
     for i in teleNum:  
         if(i.isdigit()):
@@ -33,24 +42,24 @@ while (isRunning):
 
     print("All letter combinations for " + teleIntOnly)
 
-    #if the length of teleIntOnly is 7 proceed:
+    #If the length of teleIntOnly is 7 proceed:
     if(len(teleIntOnly)==7):
 
-        # Get the list of possible letters for each digit
+        #Get the list of possible letters for each digit
         letter_groups = [numpad[digit] for digit in teleIntOnly]
         
-        # Generate Cartesian product of all letter groups
+        #Generate Cartesian product of all letter groups
         combinations = [''.join(combo) for combo in product(*letter_groups)]
         
-        #print the combinations in rows of 15
+        #Print the combinations in rows of 15
         PrevIndex=0
         for i in range(15,len(combinations),15):
             print(combinations[PrevIndex:i])
             PrevIndex=i
-        #print the remaining combinations
+        #Print the remaining combinations
         print(combinations[PrevIndex:len(combinations)])
 
-    #if the legnth of teleIntOnly was not seven print the reason and loop back to the top to ask again
+    #If the legnth of teleIntOnly was not seven print the reason and loop back to the top, to ask again
     else:
         print("the number must be 7 digits")
         print("try again")
