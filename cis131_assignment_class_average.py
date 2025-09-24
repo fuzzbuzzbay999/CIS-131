@@ -4,7 +4,7 @@ action: Class average program with sentinel-controlled iteration. once the senti
 Author: Declan Juliano
 Date:   9/23/2025
 '''
-"""."""
+
  # initialization phase
 total = 0  # sum of grades
 grades = [] # list to hold grades
@@ -13,7 +13,7 @@ grade_counter = 0 # number of grades entered
 grade = int(input('Enter grade, -1 to end: '))  # get one grade
 while grade != -1:
     total += grade
-    grades.append(str(grade)+'\n')
+    grades.append(str(grade)+'\n') # Add grade entered to the list
     grade_counter += 1
     grade = int(input('Enter grade, -1 to end: '))
     
