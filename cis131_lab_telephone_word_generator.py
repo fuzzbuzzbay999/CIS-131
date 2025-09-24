@@ -48,17 +48,29 @@ while (isRunning):
         letter_groups = [numpad[digit] for digit in teleIntOnly]
         
         #Generate Cartesian product of all letter groups
-        combinations = [''.join(combo) for combo in product(*letter_groups)]
+        combinations = [''.join(combo)+'\n' for combo in product(*letter_groups)]
         
         #Print the combinations in rows of 15
         PrevIndex=0
-        for i in range(15,len(combinations),15):
-            print(combinations[PrevIndex:i])
+
+        for i in range(0,len(combinations),15):
+            for x in range(0,15):
+                print(combinations[PrevIndex+x][:5],end = " ")
             PrevIndex=i
-        #Print the remaining combinations
-        print(combinations[PrevIndex:len(combinations)])
+            #New line!
+            print(" ")
+        #Print the remaining combinations from PrevIndex to the end
+        for i in range(PrevIndex,len(combinations)):
+            print(combinations[i][:5],end = " ")
+        #New line!
+        print(" ")
 
     #If the legnth of teleIntOnly was not seven print the reason and loop back to the top, to ask again
     else:
-        print("the number must be 7 digits")
-        print("try again")
+        print("The number must be 7 digits")
+        print("Try again")
+
+#write the list of grades to grades.txt
+writer = open("Full Combinations.txt",'w')
+writer.writelines(combinations)
+writer.close

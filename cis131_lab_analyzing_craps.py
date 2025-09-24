@@ -1,7 +1,7 @@
 
 '''
 script: cis131_lab_analyzing_craps.py
-action: This script is a craps simulation. it will simulate "total_games" games, and compile the data, per the amount of rolls to complete a game, and the coresponding wins and losses.
+action: This script is a craps simulation. It will simulate "total_games" games, and compile the data, per the amount of rolls to complete a game, and the coresponding wins and losses.
 Author: Declan Juliano
 Date:   9/16/2025
 '''
