@@ -1,4 +1,10 @@
-"""Class average program with sentinel-controlled iteration."""
+'''
+script: cis131_lab_guess_the_number.py CIS 131 - lab 2
+action: Class average program with sentinel-controlled iteration. once the sentinel is entered it will dump data to a text file.
+Author: Declan Juliano
+Date:   9/23/2025
+'''
+"""."""
  # initialization phase
 total = 0  # sum of grades
 grades = [] # list to hold grades

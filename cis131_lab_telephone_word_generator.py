@@ -1,8 +1,9 @@
 '''
 script: cis131_lab_guess_the_number.py CIS 131 - lab 2
-action: This script generates words that translate to a phonenumber. Input a desired phone number and it will output all possible corresponding letter combinations minus q and z.
+action: This script generates words that translate to a phonenumber. Input a desired phone number and it will output all possible corresponding letter combinations minus q and z. 
 Author: Declan Juliano
 Date:   9/16/2025
+        ammended 9/23 (data dump writer was created, output cleaned up to be strings not lists) 
 '''
 
 #import product to calculate the cartiesian product. I was unsucessful in using forloops and other methods (trinary counter).
