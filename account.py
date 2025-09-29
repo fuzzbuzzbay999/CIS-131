@@ -6,7 +6,6 @@ Author: Declan Juliano
 Date:   9/29/2025
 '''
 
-"""Account class definition."""
 from decimal import Decimal
 
 class Account:

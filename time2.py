@@ -3,8 +3,6 @@ script: cis131_assignment_Account_Class_Read_only
 action: A class that stors a time in 12 hr format (hh:mm:ss) and allows each value to be changed or called individualy, while only using the seconds since midnight to represent the info
 Date:   9/29/2025
 '''
-
-
 class Time:
     """Class Time with read-write properties."""
 
