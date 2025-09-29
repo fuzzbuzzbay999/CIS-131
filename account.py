@@ -1,4 +1,11 @@
 # account.py
+'''
+script: cis131_assignment_Account_Class_Read_only
+action: A test class for a bank account, it keeps track of the balance and allows deposites.
+Author: Declan Juliano
+Date:   9/29/2025
+'''
+
 """Account class definition."""
 from decimal import Decimal
 
@@ -14,10 +21,11 @@ class Account:
 
         self._name = name
         self._balance = balance
-    
+    #return the name but dont allow it to be changed
     @property
     def name(self):
         return self._name
+    #return the balance but dont allow it to be changed
     @property
     def balance(self):
         return self._balance
