@@ -44,7 +44,7 @@ class Account:
 # make acc an account
 acc=Account('John',Decimal('0.04'))
 
-#deposite to acc
+#deposit to acc
 acc.deposit(Decimal('200'))
 print(acc.balance)
 
