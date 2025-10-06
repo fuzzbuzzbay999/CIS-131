@@ -21,10 +21,12 @@ class Account:
 
         self._name = name
         self._balance = balance
+        
     #return the name but dont allow it to be changed
     @property
     def name(self):
         return self._name
+    
     #return the balance but dont allow it to be changed
     @property
     def balance(self):
@@ -39,3 +41,26 @@ class Account:
 
         self._balance += amount
 
+# make acc an account
+acc=Account('John',Decimal('0.04'))
+
+#deposite to acc
+acc.deposit(Decimal('200'))
+print(acc.balance)
+
+#attempt to change the balance, 
+try:
+    acc.balance=99999
+except Exception as e:
+    print("that is not how that works ",e)
+    print("the remaining balance is ", acc.balance)
+
+try:
+    acc.name = 'Mark'
+except Exception as e:
+    print("that is not how that works ",e)
+    print("The name is ",acc.name)
+
+#deposit to acc
+acc.deposit(Decimal(100))
+print(acc.balance)
