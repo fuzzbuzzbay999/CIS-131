@@ -2,6 +2,7 @@
 script: cis131_lab_modifying_internal_data_representation
 action: A class that stores a time in 12 hr format (hh:mm:ss) and allows each value to be changed or called individualy, while only using the seconds since midnight to represent and retain the info
 Date:   9/29/2025
+    Ammended 10/7/2025, added code to test the class
 '''
 from IPython import embed
 class Time:
@@ -54,6 +55,10 @@ class Time:
         self._remainingHours = (self._total_seconds // 3600)*3600            #first give the remainning hours, then convert to seconds
         self._remainingMinutes = ((self._total_seconds % 3600) //60) * 60    #first give the remainning hours, then find the remaining minutes, then convert to seconds
         self._total_seconds = self._remainingHours + self._remainingMinutes+ second  #set total_seconds
+    
+    @property
+    def total_seconds(self): 
+        return self._total_seconds
 
     def set_time(self, hour=0, minute=0, second=0):
         """Set values of hour, minute, and second."""
@@ -72,26 +77,36 @@ class Time:
                 f':{self.minute:0>2}:{self.second:0>2}' + 
                 (' AM' if self.hour < 12 else ' PM'))
 
-
+# make a time object
 t = Time(20,32,14)
-print(f'the time is {t}')
 
-print(f'the hour is {t.hour}')
-print(f'the minute is {t.minute}')
-print(f'the second is {t.second}')
+# print time
+print(f'The time is {t}')
 
-print(f'changing the hours minutes and seconds individualy:')
+# print the hour, minute, second
+print(f'The hour is {t.hour}')
+print(f'The minute is {t.minute}')
+print(f'The second is {t.second}')
+print(f'There are {t.total_seconds} seconds since midnight')
+print('')
+
+# change hour minute second individually
+print(f'Changing the hours minutes and seconds individualy:')
 t.hour = 3
 t.minute = 4
 t.second = 12
-print(f'the new time is {t}')
+print(f'The new time is {t}')
+print('')
 
-print(f'setting time by using set_time:')
+# change time with set_time
+print(f'Setting time by using set_time:')
 t.set_time(4,7,39)
-print(f'the newest time is {t}')
+print(f'The newest time is {t}')
+print('')
 
+# attempt to enter an invalid number
 try:
-    print('attempting to set the seconds above 60:')
+    print('Attempting to set the seconds above 60:')
     t.second = 345
 except Exception as e:
     print(e)
