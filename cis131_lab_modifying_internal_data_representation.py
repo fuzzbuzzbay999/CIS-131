@@ -10,12 +10,12 @@ class Time:
 
     def __init__(self, hour=0, minute=0, second=0):
         """Initialize each attribute."""
-        self._total_seconds = hour*3600 + minute*60 + second #set total_seconds to the total seconds in hour, minute, second
+        self._total_seconds = hour*3600 + minute*60 + second # set total_seconds to the total seconds in hour, minute, second
 
     @property
     def hour(self):
         """Return the hour."""
-        return self._total_seconds // 3600   #integer divide by 3600 to convert seconds to hours
+        return self._total_seconds // 3600   # integer divide by 3600 to convert seconds to hours
 
     @hour.setter
     def hour(self, hour):
@@ -23,13 +23,13 @@ class Time:
         if not (0 <= hour < 24):
             raise ValueError(f'Hour ({hour}) must be 0-23')
 
-        self._remainingSeconds = self._total_seconds % 3600      #the remainer is the remaining seconds
-        self._total_seconds = self._remainingSeconds+hour*3600   #set total_seconds to remainingSeconds + converted hours to seconds
+        self._remainingSeconds = self._total_seconds % 3600      # the remainer is the remaining seconds
+        self._total_seconds = self._remainingSeconds+hour*3600   # set total_seconds to remainingSeconds + converted hours to seconds
 
     @property
     def minute(self):
         """Return the minute."""
-        return (self._total_seconds % 3600) // 60    #integer divide the remaining seconds by 60
+        return (self._total_seconds % 3600) // 60    # integer divide the remaining seconds by 60
 
     @minute.setter
     def minute(self, minute):
@@ -37,14 +37,14 @@ class Time:
         if not (0 <= minute < 60):
             raise ValueError(f'Minute ({minute}) must be 0-59')
         
-        self._remainingHours = (self._total_seconds // 3600)*3600    #first give the remainning hours, then convert to seconds
-        self._remainingSeconds = (self._total_seconds % 3600) % 60   #first find the remaining seconds from hours, then find the remaining seconds from the minutes
-        self._total_seconds = self._remainingHours + self._remainingSeconds+ minute *60  #set total_seconds
+        self._remainingHours = (self._total_seconds // 3600)*3600    # first give the remainning hours, then convert to seconds
+        self._remainingSeconds = (self._total_seconds % 3600) % 60   # first find the remaining seconds from hours, then find the remaining seconds from the minutes
+        self._total_seconds = self._remainingHours + self._remainingSeconds+ minute *60  # set total_seconds
 
     @property
     def second(self):
         """Return the second."""
-        return (self._total_seconds % 3600) % 60     #first find the remaining seconds from hours, then find the remaining seconds from the minutes
+        return (self._total_seconds % 3600) % 60     # first find the remaining seconds from hours, then find the remaining seconds from the minutes
 
     @second.setter
     def second(self, second):
@@ -52,9 +52,9 @@ class Time:
         if not (0 <= second < 60):
             raise ValueError(f'Second ({second}) must be 0-59')
         
-        self._remainingHours = (self._total_seconds // 3600)*3600            #first give the remainning hours, then convert to seconds
-        self._remainingMinutes = ((self._total_seconds % 3600) //60) * 60    #first give the remainning hours, then find the remaining minutes, then convert to seconds
-        self._total_seconds = self._remainingHours + self._remainingMinutes+ second  #set total_seconds
+        self._remainingHours = (self._total_seconds // 3600)*3600            # first give the remainning hours, then convert to seconds
+        self._remainingMinutes = ((self._total_seconds % 3600) //60) * 60    # first give the remainning hours, then find the remaining minutes, then convert to seconds
+        self._total_seconds = self._remainingHours + self._remainingMinutes+ second  # set total_seconds
     
     @property
     def total_seconds(self): 
@@ -62,9 +62,9 @@ class Time:
 
     def set_time(self, hour=0, minute=0, second=0):
         """Set values of hour, minute, and second."""
-        self.hour = hour        #call the hour property
-        self.minute = minute    #call the minute property
-        self.second = second    #call the second property
+        self.hour = hour        # call the hour property
+        self.minute = minute    # call the minute property
+        self.second = second    # call the second property
 
     def __repr__(self):
         """Return Time string for repr()."""
@@ -83,7 +83,7 @@ t = Time(20,32,14)
 # print time
 print(f'The time is {t}')
 
-# print the hour, minute, second
+# print the hour, minute, second, and total seconds
 print(f'The hour is {t.hour}')
 print(f'The minute is {t.minute}')
 print(f'The second is {t.second}')
