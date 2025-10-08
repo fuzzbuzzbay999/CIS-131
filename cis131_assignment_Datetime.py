@@ -1,6 +1,6 @@
 
 '''
-script: cis131_lab_analyzing_craps.py
+script: cis131_lab_Datetime.py
 action: This script is a demonstration of the datetime library
 Author: Declan Juliano
 Date:   10/7/2025
