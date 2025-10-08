@@ -3,7 +3,7 @@ script: cis131_lab_modifying_internal_data_representation
 action: A class that stores a time in 12 hr format (hh:mm:ss) and allows each value to be changed or called individualy, while only using the seconds since midnight to represent and retain the info
 Date:   9/29/2025
 '''
-
+from IPython import embed
 class Time:
     """Class Time with read-write properties."""
 
@@ -72,3 +72,26 @@ class Time:
                 f':{self.minute:0>2}:{self.second:0>2}' + 
                 (' AM' if self.hour < 12 else ' PM'))
 
+
+t = Time(20,32,14)
+print(f'the time is {t}')
+
+print(f'the hour is {t.hour}')
+print(f'the minute is {t.minute}')
+print(f'the second is {t.second}')
+
+print(f'changing the hours minutes and seconds individualy:')
+t.hour = 3
+t.minute = 4
+t.second = 12
+print(f'the new time is {t}')
+
+print(f'setting time by using set_time:')
+t.set_time(4,7,39)
+print(f'the newest time is {t}')
+
+try:
+    print('attempting to set the seconds above 60:')
+    t.second = 345
+except Exception as e:
+    print(e)
