@@ -1,9 +1,16 @@
+
+'''
+script: cis131_lab_analyzing_craps.py
+action: This script is a demonstration of the datetime library
+Author: Declan Juliano
+Date:   10/7/2025
+'''
+
+# Import datetime
 from datetime import datetime
 
-# Part (a): Get the current date and time and store it in variable x
+# Get the current date and time and store it to x and y
 x = datetime.now()
-
-# Repeat Part (a): Store the result in variable y
 y = datetime.now()
 
 # Display each datetime object
