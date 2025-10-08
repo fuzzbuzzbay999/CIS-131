@@ -34,7 +34,7 @@ print(f'The multiplication of {frac1} and {frac2} is equal to {frac_mul}')
 print(f'To print fractions in a/b, it can be done by printing a variable of Fraction say "frac1", as in {frac1}, or we can print the numerator and denominator seperated by a /, as in {frac1.numerator}/{frac1.denominator}')
 
 # Convert fraction to decimal
-print(f'The decimal of {frac2} is {float(frac2)}')
+print(f'The decimal of {frac1} is {float(frac1)}')
 
 print('')
 
