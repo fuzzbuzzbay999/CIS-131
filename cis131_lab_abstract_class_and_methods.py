@@ -108,7 +108,7 @@ except Exception as e:
 print('')
 Octavia = SalariedEmployee("Octavia","Melody",734235274,1832.62)
 Aurry = HourlyEmployee("Aurelia","Celune",412575349,45,21.72)
-Aura = HourlyEmployee("Lunar","Aura",7457831ew23,42,1523.01)
+Aura = HourlyEmployee("Lunar","Aura",745783123,42,1523.01)
 Lyra = SalariedEmployee("Lyra","Heartstrings",47329250,2475.23)
 
 # Print employees and their earnings sepreately
