@@ -93,6 +93,8 @@ class Employee(Person):
             isRole = [key for key, val in self.roleDictionary.items() if val == role]
             if(isRole):  
                 self._role = isRole
+                print(isRole)
+                print(role)
             else:
                 raise ValueError("Role must be in roleDictionary",self.roleDictionary,role)
             
@@ -118,7 +120,8 @@ class Employee(Person):
 
     @property
     def rolePerson(self):
-        return self.roleDictionary.get(str(self._role))
+
+        return self.roleDictionary.get(self._role[0])
     @rolePerson.setter
     def rolePerson(self,role):
         if(role in self.roleDictionary):  
@@ -128,7 +131,7 @@ class Employee(Person):
 
     @property
     def classificationPerson(self):
-        return self.classificationDictionary.get(str(self._classification))
+        return self.classificationDictionary.get(self._classification[0])
     @classificationPerson.setter
     def classificationPerson(self,classification):
         if(classification in self.classificationDictionary):  
