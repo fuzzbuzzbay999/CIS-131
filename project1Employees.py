@@ -83,6 +83,7 @@ class Employee(Person):
         super().__init__(first, last, id, email,phone)
         try:
             self._hireDate = date(year,month,day)
+            print(self._hireDate)
 
             if(salary >=0):
                 self._annualSalary = round(salary,2)
@@ -117,7 +118,7 @@ class Employee(Person):
 
     @property
     def rolePerson(self):
-        return self._role
+        return self.roleDictionary.get(str(self._role))
     @rolePerson.setter
     def rolePerson(self,role):
         if(role in self.roleDictionary):  
@@ -127,7 +128,7 @@ class Employee(Person):
 
     @property
     def classificationPerson(self):
-        return self._classification
+        return self.classificationDictionary.get(str(self._classification))
     @classificationPerson.setter
     def classificationPerson(self,classification):
         if(classification in self.classificationDictionary):  
@@ -182,6 +183,7 @@ def getEmployees():
 '''
 Output
 '''
+from datetime import date
 def createMenu(num,items,):
     for i in range(0,num):
         print(f'{i+1}. {items[i]}')
@@ -193,11 +195,17 @@ def chosen(index):
             print("Thank you for using the system. ")
             print("Now exiting the program…")
         case 2:
+            print(f'{"LastName":<20}{"FirstName":<20}{"ID":<20}{"Email":<30}{"Phone":<20}{"HireDate":<20}{"Classification":<20}{"Role":<20}{"Salary":<20}')
+            for emp in employeeList:
+                
+                print(f'{emp.lastName:<20}{emp.firstName:<20}{emp.idNumber:<20}{emp.emailAddress:<30}{emp.phoneNumber:<20}{str(emp.hireDate):<20}{str(emp.classificationPerson):<20}{str(emp.rolePerson):<20}{emp.annualSalary:<20.2f}')        
+        case 3:
             print(f'{"LastName":<20}{"FirstName":<20}{"ID":<20}{"Phone":<20}')
             for emp in employeeList:
                 
-                print(f'{emp.lastName:<10}\t\t{emp.firstName:<10}\t\t{emp.idNumber:<10}\t\t{emp.phoneNumber:<10}')
+                print(f'{emp.lastName:<20}{emp.firstName:<20}{emp.idNumber:<20}{emp.phoneNumber:<20}')
         
 getEmployees()
 createMenu(3,['quit','employee optiuons','em,ployee cobtact'])
 
+embed()
