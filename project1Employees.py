@@ -74,8 +74,8 @@ class Employee(Person):
     # Variables
     from datetime import date
 
-    roleDictionary = {'Staff':'001', 'Faculty':'002'}
-    classificationDictionary = {'Full':'001', 'Part':'002'}
+    roleDictionary = {'001':'Staff', '002':'Faculty'}
+    classificationDictionary = {'001':'Full', '002':'Part'}
 
     def __init__(self, first: str, last: str, id: int|str, email: str,phone: str, month: int,day: int, year: int, salary: float,role: str, classification: str):
 
@@ -88,13 +88,15 @@ class Employee(Person):
             else:
                 raise ValueError("Annual salary must be >=0")
             
-            if(role in self.roleDictionary):  
-                self._role = self.roleDictionary[role]
+            key = [key for key, val in self.roleDictionary.items() if val == role]
+            if(key):  
+                self._role = key
             else:
-                raise ValueError("Role must be in roleDictionary",self.roleDictionary)
+                raise ValueError("Role must be in roleDictionary",self.roleDictionary,role)
             
-            if(classification in self.classificationDictionary):
-                self._classification = self.classificationDictionary[classification]
+            key = [key for key, val in self.roleDictionary.items() if val == role]
+            if(key):
+                self._role = key
             else:
                 raise ValueError("Classification must be in classificationDictionary",self.classificationDictionary)
         except Exception as e:
@@ -164,12 +166,12 @@ def getEmployees():
             classification= employee[8]
             role = employee[9]
             salary = float(employee[10])
-
             emp = Employee(first,last,id,email,phone,month,day,year,salary,role,classification)
             employeeList.append(emp)
+            #print(f'Added employee {first} {last}')
 
 
 
 getEmployees()
 
-print(employeeList)
+#print(employeeList[1].idNumber)
