@@ -2,19 +2,20 @@
 script: cis131_lab_abstract_class_and_methods.py
 action: A class hierarchy example
 Author: Declan Juliano
-Date:   10/14/2025
+Date:   10/29/2025
 '''
 from abc import ABC, abstractmethod
 from IPython import embed
 
-#embed()
 # Abstract person class
 class Person(ABC):
-    def __init__(self, first, last, id, email,phone):
+    # define the class (first, last, id, email, phone)
+    def __init__(self, first, last, id, email, phone):
+        # If any of the checks throw an error raise it and continue
         try:
             self._first = first
             self._last = last
-
+            # if id is not 4 digits error
             if(len(str(id)) ==4 and str(id).isdigit()):
                 self._id = int(id)
             else:
@@ -85,7 +86,6 @@ class Employee(Person):
         super().__init__(first, last, id, email,phone)
         try:
             self._hireDate = date(year,month,day)
-            print(self._hireDate)
 
             if(salary >=0):
                 self._annualSalary = round(salary,2)
@@ -95,8 +95,6 @@ class Employee(Person):
             isRole = [key for key, val in self.roleDictionary.items() if val == role]
             if(isRole):  
                 self._role = isRole
-                print(isRole)
-                print(role)
             else:
                 raise ValueError("Role must be in roleDictionary",self.roleDictionary,role)
             
@@ -126,8 +124,9 @@ class Employee(Person):
         return self.roleDictionary.get(self._role[0])
     @rolePerson.setter
     def rolePerson(self,role):
-        if(role in self.roleDictionary):  
-            self._role = self.roleDictionary[role]
+        isRole = [key for key, val in self.roleDictionary.items() if val == role]
+        if(isRole):  
+            self._role = isRole
         else:
             print("Role must be in roleDictionary",self.roleDictionary, "Nothing changed")
 
@@ -136,8 +135,9 @@ class Employee(Person):
         return self.classificationDictionary.get(self._classification[0])
     @classificationPerson.setter
     def classificationPerson(self,classification):
-        if(classification in self.classificationDictionary):  
-            self._classification = self.classificationDictionary[classification]
+        isClassification = [key for key, val in self.classificationDictionary.items() if val == classification]
+        if(isClassification):
+            self._classification = isClassification
         else:
             print("Role must be in roleDictionary",self.classificationDictionary, "Nothing changed")
         
@@ -151,7 +151,6 @@ class Employee(Person):
 
 '''
 processing the data
-
 '''
 from datetime import date
 import re
@@ -182,10 +181,7 @@ def getEmployees():
             except Exception as e:
                 print ('skipping employee')
 
-            print(f'Added employee {first} {last} as clas {classification} and  role {role}')
-
-            
-
+            print(f'Added employee {first} {last}')
 
 '''
 Output
@@ -193,10 +189,12 @@ Output
 from datetime import date
 def createMenu(num,items):
     def options():
+        print('\n')
+        print("Please select an option below\n")
         for i in range(0,num):
             print(f'{i+1}. {items[i]}')
+
     isRunning = True
-    options()
     while(isRunning):
         options()
         index = int(input())
@@ -214,7 +212,7 @@ def createMenu(num,items):
             for emp in employeeList:
                 print(f'{emp.lastName:<20}{emp.firstName:<20}{emp.idNumber:<20}{emp.phoneNumber:<20}')
         else:
-            print(f"Unknown command: {index}")
+            print(f"I am sorry, {index} is not an option")
 
 getEmployees()
-createMenu(3,['quit','employee optiuons','em,ployee cobtact'])
+createMenu(3,['Quit','Display Employee Employment Information','Display Employee Contact Information'])
