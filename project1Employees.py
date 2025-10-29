@@ -141,14 +141,39 @@ class Employee(Person):
 processing the data
 
 '''
+from datetime import date
+import re
 
-employeeList = []
+
 
 def getEmployees():
+    employeeList = []
     employees = open("employees.txt")
-    print(employees.read())
+    for i in employees.readlines():
+        employee=re.sub(r'[\t /]+',',',i).split(',')
+        
+        #Employee(*i.split(','))
+        if(len(employee)==11):
+            first = employee[0]
+            last = employee[1]
+            id = int(employee[2])
+            email = employee[3]
+            phone = employee[4]
+            year = int(employee[5])
+            month = int(employee[6])
+            day = int(employee[7])
+            role = employee[8]
+            classification = employee[9]
+            salary = float(employee[10])
 
-from datetime import date
+            print(employee)
+
+            emp = Employee(first,last,id,email,phone,year,month,day,salary,role,classification)
+            employeeList.append(emp)
+            #employeeList.append(Employee(*employee))
+        print(employeeList)
+   
+
 
 bob = Employee('bob','jon',1223,'sdfsdff','520-490-7681',2002,3,20,12321,'Staff','Full')
 print(bob.hireDate)
