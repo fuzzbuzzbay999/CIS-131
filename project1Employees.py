@@ -183,13 +183,14 @@ from datetime import date
 import re
 
 # variables
+file="employees.txt"
 employeeList = []   # Holes all employees
 
 # function to itterate through supplied text document and populate the list
 def getEmployees():
   
     global employeeList                 # Ensure global control
-    employees = open("employees.txt")   # open the text document
+    employees = open(file)   # open the text document
 
     #read all lines and itterate through them
     for i in employees.readlines():
@@ -200,8 +201,8 @@ def getEmployees():
         #if the sliced line is not 11 discard it (doesnt have the proper data feilds. Either its missing them or its a heading)
         if(len(employee)==11):
             # assign the list indecies to their variables
-            first = employee[0]
-            last = employee[1]
+            last = employee[0]
+            first = employee[1]
             id = int(employee[2])
             email = employee[3]
             phone = employee[4]
