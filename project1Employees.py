@@ -68,7 +68,9 @@ class Person(ABC):
             print("Phone number must be in the format xxx-xxx-xxxx. Nothing changed.")
     # print
     def __repr__(self):
-        return f'{self._first}, reporting for duty'
+        return f'{self._first} {self._last} {self._email}'
+    def __str__(self):
+        return f'{self._first} {self._last}'
 
 #employee
 class Employee(Person):
@@ -142,8 +144,10 @@ class Employee(Person):
     @property
     def hireDate(self):
         return self._hireDate
-    
-
+    def __repr__(self):
+        return f'{self._first} {self._last} {self._email}'
+    def __str__(self):
+        return f'{self._first} {self._last}'
 
 '''
 processing the data
@@ -187,28 +191,30 @@ def getEmployees():
 Output
 '''
 from datetime import date
-def createMenu(num,items,):
-    for i in range(0,num):
-        print(f'{i+1}. {items[i]}')
-    chosen(int(input()))
-
-def chosen(index):
-    match index:
-        case 1:
+def createMenu(num,items):
+    def options():
+        for i in range(0,num):
+            print(f'{i+1}. {items[i]}')
+    isRunning = True
+    options()
+    while(isRunning):
+        options()
+        index = int(input())
+        if(index==1):
             print("Thank you for using the system. ")
             print("Now exiting the program…")
-        case 2:
+            isRunning = False
+            break
+        elif(index == 2):
             print(f'{"LastName":<20}{"FirstName":<20}{"ID":<20}{"Email":<30}{"Phone":<20}{"HireDate":<20}{"Classification":<20}{"Role":<20}{"Salary":<20}')
             for emp in employeeList:
-                
                 print(f'{emp.lastName:<20}{emp.firstName:<20}{emp.idNumber:<20}{emp.emailAddress:<30}{emp.phoneNumber:<20}{str(emp.hireDate):<20}{str(emp.classificationPerson):<20}{str(emp.rolePerson):<20}{emp.annualSalary:<20.2f}')        
-        case 3:
+        elif(index == 3):
             print(f'{"LastName":<20}{"FirstName":<20}{"ID":<20}{"Phone":<20}')
             for emp in employeeList:
-                
                 print(f'{emp.lastName:<20}{emp.firstName:<20}{emp.idNumber:<20}{emp.phoneNumber:<20}')
-        
+        else:
+            print(f"Unknown command: {index}")
+
 getEmployees()
 createMenu(3,['quit','employee optiuons','em,ployee cobtact'])
-
-embed()
