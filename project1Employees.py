@@ -27,7 +27,7 @@ class Person(ABC):
             
             self._email = email
 
-            # If phone is not 12 digits error
+            # If phone is not 12 chars error
             if(len(str(phone)) == 12):
                 self._phoneNumber = phone
             else:
