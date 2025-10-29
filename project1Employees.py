@@ -249,26 +249,29 @@ def createMenu(num,items):
         # prompt the user for a number
         index = int(input())
 
-        # compair the number with the assosiated action
-        if(index == 1):
+        # compare the number with the assosiated action
+        if(index == 1):     # Option 1
             print("Thank you for using the system. ")
             print("Now exiting the program…")
             isRunning = False   # stop the loop case
             break               # Imediately break the loop to stop further execution
-        elif(index == 2):
+
+        elif(index == 2):   # Option 2
             # Header
             print(f'{"LastName":<20}{"FirstName":<20}{"ID":<20}{"Email":<30}{"Phone":<20}{"HireDate":<20}{"Classification":<20}{"Role":<20}{"Salary":<20}')
             # Body
             for emp in employeeList:
                 print(f'{emp.lastName:<20}{emp.firstName:<20}{emp.idNumber:<20}{emp.emailAddress:<30}{emp.phoneNumber:<20}{str(emp.hireDate):<20}{str(emp.classificationPerson):<20}{str(emp.rolePerson):<20}{emp.annualSalary:<20.2f}')        
-        elif(index == 3):
+        
+        elif(index == 3):   # Option 3
             # Header
             print(f'{"LastName":<20}{"FirstName":<20}{"ID":<20}{"Phone":<20}')
             # Body
             for emp in employeeList:
                 print(f'{emp.lastName:<20}{emp.firstName:<20}{emp.idNumber:<20}{emp.phoneNumber:<20}')
+        
         else:
-            # no choice for that number
+            # No choice for that number
             print(f"I am sorry, {index} is not an option")
 
 # Populate the employeeList
