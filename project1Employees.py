@@ -67,7 +67,7 @@ class Person(ABC):
             print("Phone number must be in the format xxx-xxx-xxxx. Nothing changed.")
     # print
     def __repr__(self):
-        return "hi"
+        return f'{self._first}, reporting for duty'
 
 #employee
 class Employee(Person):
@@ -77,7 +77,7 @@ class Employee(Person):
     roleDictionary = {'Staff':'001', 'Faculty':'002'}
     classificationDictionary = {'Full':'001', 'Part':'002'}
 
-    def __init__(self, first: str, last: str, id: int|str, email: str,phone: str,year: int, month: int, day: int, salary: float,role: str, classification: str):
+    def __init__(self, first: str, last: str, id: int|str, email: str,phone: str, month: int,day: int, year: int, salary: float,role: str, classification: str):
 
         super().__init__(first, last, id, email,phone)
         try:
@@ -143,38 +143,33 @@ processing the data
 '''
 from datetime import date
 import re
-
-
+ 
+employeeList = []
 
 def getEmployees():
-    employeeList = []
+    global employeeList
     employees = open("employees.txt")
     for i in employees.readlines():
         employee=re.sub(r'[\t /]+',',',i).split(',')
         
-        #Employee(*i.split(','))
         if(len(employee)==11):
             first = employee[0]
             last = employee[1]
             id = int(employee[2])
             email = employee[3]
             phone = employee[4]
-            year = int(employee[5])
-            month = int(employee[6])
-            day = int(employee[7])
-            role = employee[8]
-            classification = employee[9]
+            month = int(employee[5])
+            day = int(employee[6])
+            year = int(employee[7])
+            classification= employee[8]
+            role = employee[9]
             salary = float(employee[10])
 
-            print(employee)
-
-            emp = Employee(first,last,id,email,phone,year,month,day,salary,role,classification)
+            emp = Employee(first,last,id,email,phone,month,day,year,salary,role,classification)
             employeeList.append(emp)
-            #employeeList.append(Employee(*employee))
-        print(employeeList)
-   
 
 
-bob = Employee('bob','jon',1223,'sdfsdff','520-490-7681',2002,3,20,12321,'Staff','Full')
-print(bob.hireDate)
+
 getEmployees()
+
+print(employeeList)
