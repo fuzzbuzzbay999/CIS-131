@@ -19,7 +19,7 @@ class Person(ABC):
             self._first = first
             self._last = last
 
-            # if id is not 4 digits error
+            # If id is not 4 digits error
             if(len(str(id)) == 4 and str(id).isdigit()):
                 self._id = int(id)
             else:
@@ -75,7 +75,7 @@ class Person(ABC):
         else:
             print("Phone number must be in the format xxx-xxx-xxxx. Nothing changed.")
     
-    # print
+    # Print
     def __repr__(self):
         return f'{self._first} {self._last} {self._email}'
     def __str__(self):
@@ -92,31 +92,31 @@ class Employee(Person):
     roleDictionary = {'001':'Staff', '002':'Faculty'}
     classificationDictionary = {'001':'Full', '002':'Part'}
 
-    # define the class with parent(first, last, id, email, phone) and this (month, day, year, salary, role, classification)
+    # Define the class with people(first, last, id, email, phone) and This(month, day, year, salary, role, classification)
     def __init__(self, first: str, last: str, id: int|str, email: str,phone: str, month: int,day: int, year: int, salary: float,role: str, classification: str):
         
-        # use the parent
+        # Use the parent
         super().__init__(first, last, id, email,phone)
 
         # If any of the checks fail, throw error
         try:
-            #hire date
+            # Hire date
             self._hireDate = date(year,month,day)
 
-            #if salary is negative then error
+            # If salary is negative then error
             if(salary >= 0):
                 self._annualSalary = round(salary,2)
             else:
                 raise ValueError("Annual salary must be >=0")
             
-            #convert role (str) to the respective dict key (if it doesnt exit error)
+            # Convert role (str) to the respective dict key (if it doesnt exit error)
             isRole = [key for key, val in self.roleDictionary.items() if val == role]
             if(isRole):  
                 self._role = isRole
             else:
                 raise ValueError("Role must be in roleDictionary",self.roleDictionary,role)
             
-            #convert classification (str) to the respective dict key (if it doesnt exit error)
+            # Convert classification (str) to the respective dict key (if it doesnt exit error)
             isClassification = [key for key, val in self.classificationDictionary.items() if val == classification]
             if(isClassification):
                 self._classification = isClassification
@@ -128,12 +128,12 @@ class Employee(Person):
             print("Errors have occured, reexecuting the class call is recomended. Reason:",e)
             raise
     
-    # get hire date
+    # Get hire date
     @property
     def hireDate(self):
         return self._hireDate
     
-    # get annual Salary (if changing and the salary is negative display why and dont change it)
+    # Get annual Salary (if changing and the salary is negative display why and dont change it)
     @property
     def annualSalary(self):
         return self._annualSalary
@@ -144,7 +144,7 @@ class Employee(Person):
         else:
             print("Salary must not be negative. Nothing changed")
     
-    # get role (if changing it, and the role doesnt exist, display it and dont change it)
+    # Get role (if changing it, and the role doesnt exist, display it and dont change it)
     @property
     def rolePerson(self):
         return self.roleDictionary.get(self._role[0])
@@ -156,7 +156,7 @@ class Employee(Person):
         else:
             print("Role must be in roleDictionary",self.roleDictionary, "Nothing changed")
     
-    # get classification (if changing it, and the classificaiton doesnt exist, display it and dont change it)
+    # Get classification (if changing it, and the classificaiton doesnt exist, display it and dont change it)
     @property
     def classificationPerson(self):
         return self.classificationDictionary.get(self._classification[0])
@@ -168,7 +168,7 @@ class Employee(Person):
         else:
             print("Role must be in roleDictionary",self.classificationDictionary, "Nothing changed")
 
-    # print
+    # Print
     def __repr__(self):
         return f'{self._first} {self._last} {self._email}'
     def __str__(self):
@@ -185,24 +185,24 @@ from datetime import date
 import re
 
 # variables
-file = "employees.txt"    # File name to
+file = "employees.txt"  # File name to
 employeeList = []       # Holds all employees
 
-# function to itterate through supplied text document and populate the list
+# Function to itterate through supplied text document and populate the list
 def getEmployees():
   
-    global employeeList                 # Ensure global control
+    global employeeList      # Ensure global control of employeeList
     employees = open(file)   # open the text document
 
-    #read all lines and itterate through them
+    # Read all lines and itterate through them
     for i in employees.readlines():
 
-        #remove all (\t, ,/) symbols and their duplicates, and replace them with commas. Split allong the commas into a list
+        # Remove all (\t, ,/) symbols and their duplicates, and replace them with commas. Split allong the commas into a list
         employee = re.sub(r'[\t /]+',',',i).split(',')
         
-        #if the sliced line is not 11 discard it (doesnt have the proper data feilds. Either its missing them or its a heading)
+        # If the sliced line is not 11 discard it (doesnt have the proper data feilds. Either its missing them or its a heading)
         if(len(employee) == 11):
-            # assign the list indecies to their variables
+            # Assign the list indecies to their variables (convert those that need to be int and float to such)
             last = employee[0]
             first = employee[1]
             id = int(employee[2])
