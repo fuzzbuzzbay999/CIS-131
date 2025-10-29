@@ -109,14 +109,14 @@ class Employee(Person):
             else:
                 raise ValueError("Annual salary must be >=0")
             
-            # Convert role (str) to the respective dict key (if it doesnt exit error)
+            # Convert role (str) to the respective dict key (if it doesnt exist error)
             isRole = [key for key, val in self.roleDictionary.items() if val == role]
             if(isRole):  
                 self._role = isRole
             else:
                 raise ValueError("Role must be in roleDictionary",self.roleDictionary,role)
             
-            # Convert classification (str) to the respective dict key (if it doesnt exit error)
+            # Convert classification (str) to the respective dict key (if it doesnt exist error)
             isClassification = [key for key, val in self.classificationDictionary.items() if val == classification]
             if(isClassification):
                 self._classification = isClassification
@@ -184,7 +184,7 @@ Processing the data
 from datetime import date
 import re
 
-# variables
+# Variables
 file = "employees.txt"  # File name to
 employeeList = []       # Holds all employees
 
@@ -192,7 +192,7 @@ employeeList = []       # Holds all employees
 def getEmployees():
   
     global employeeList      # Ensure global control of employeeList
-    employees = open(file)   # open the text document
+    employees = open(file)   # Open the text document
 
     # Read all lines and itterate through them
     for i in employees.readlines():
@@ -222,7 +222,7 @@ def getEmployees():
             except:
                 print ('skipping employee')
             
-            # display current progress
+            # Display current progress
             print(f'Added employee {first} {last}')
 
 '''
@@ -234,26 +234,26 @@ from datetime import date
 # Function for the menu, (num[amount of choices], items[list of what the items are])
 # It is set up this way to allow for more modularity when presented with sub menus and what not
 def createMenu(num,items):
-    # display the numeric options using the supplied amount and prompts
+    # Display the numeric options using the supplied amount and prompts
     def options():
         print('\n')
         print("Please select an option below\n")
         for i in range(0,num):
             print(f'{i+1}. {items[i]}')
 
-    #
+    # Loop condition
     isRunning = True
     while(isRunning):
-        # print the options
+        # Print the options
         options()
-        # prompt the user for a number
+        # Prompt the user for a number
         index = int(input())
 
-        # compare the number with the assosiated action
+        # Compare the number with the assosiated action
         if(index == 1):     # Option 1
             print("Thank you for using the system. ")
             print("Now exiting the program…")
-            isRunning = False   # stop the loop case
+            isRunning = False   # Stop the loop condition
             break               # Imediately break the loop to stop further execution
 
         elif(index == 2):   # Option 2
