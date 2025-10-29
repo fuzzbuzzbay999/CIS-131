@@ -92,7 +92,6 @@ class Employee(Person):
             isRole = [key for key, val in self.roleDictionary.items() if val == role]
             if(isRole):  
                 self._role = isRole
-                print(isRole)
             else:
                 raise ValueError("Role must be in roleDictionary",self.roleDictionary,role)
             
@@ -180,7 +179,23 @@ def getEmployees():
             
 
 
+'''
+Output
+'''
+def createMenu(num,items,):
+    for i in range(0,num):
+        print(f'{i+1}. {items[i]}')
+    chosen(int(input()))
 
+def chosen(index):
+    match index:
+        case 1:
+            print("Thank you for using the system. ")
+            print("Now exiting the program…")
+        case 2:
+            for emp in employeeList:
+                print(emp)
+        
 getEmployees()
-print(len(employeeList))
-print(employeeList)
+createMenu(3,['quit','employee optiuons','em,ployee cobtact'])
+
