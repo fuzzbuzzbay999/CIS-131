@@ -18,25 +18,25 @@ class Person(ABC):
             if(len(str(id)) ==4 and str(id).isdigit()):
                 self._id = int(id)
             else:
-                raise ValueError("id must be 4 digits")
+                raise ValueError("Id must be 4 digits")
             
             self._email = email
 
             if(len(str(phone))==12):
                 self._phoneNumber = phone
             else:
-                raise ValueError("phone number must be 12 characters")
+                raise ValueError("Phone number must be 12 characters")
         except Exception as e:
-            print("Errors have occured, reexecuting the class call is recomended" , e)
+            print("Errors have occured, reexecuting the class call is recomended. Reason:" , e)
 
 # Get first name        
     @property
     def firstName(self):
         return self._first
-    
     @firstName.setter
     def firstName(self,first):
         self._first = first
+
 # Get last name
     @property
     def lastName(self):
@@ -44,25 +44,27 @@ class Person(ABC):
     @lastName.setter
     def lastName(self,last):
         self._last = last
+
 # Get name id number
     @property
     def idNumber(self):
         return self._id
+    
 # Get email
     @property
     def emailAddress(self):
         return self._email
+    
 # Get phone number
     @property
     def phoneNumber(self):
         return self._phoneNumber
-    
     @phoneNumber.setter
     def phoneNumber(self, phone):
         if (len(str(phone))==12):
             self._phoneNumber = phone
         else:
-            raise  ValueError("phone number must be 12 characters")
+            print("Phone number must be in the format xxx-xxx-xxxx. Nothing changed.")
     # print
     def __repr__(self):
         return "hi"
@@ -72,72 +74,82 @@ class Employee(Person):
     # Variables
     from datetime import date
 
-    roleDictionary = {'staff':'001', 'Faculty':'002'}
-    classificationDictionary = {'Full-Time':'001', 'Part-Time':'002'}
-    def __init__(self, first: str, last: str, id: int|str, email: str,phone: int|str,hireDate: date, annualSalary: float,role: str, classification: str):
+    roleDictionary = {'Staff':'001', 'Faculty':'002'}
+    classificationDictionary = {'Full':'001', 'Part':'002'}
+
+    def __init__(self, first: str, last: str, id: int|str, email: str,phone: str,year: int, month: int, day: int, salary: float,role: str, classification: str):
+
         super().__init__(first, last, id, email,phone)
         try:
-            self._hireDate = hireDate 
+            self._hireDate = date(year,month,day)
 
-            if(annualSalary >=0):
-                self._annualSalary = annualSalary
+            if(salary >=0):
+                self._annualSalary = round(salary,2)
             else:
-                raise ValueError("annual salary must be >=0")
+                raise ValueError("Annual salary must be >=0")
             
             if(role in self.roleDictionary):  
                 self._role = self.roleDictionary[role]
             else:
-                raise ValueError("role must be in roleDictionary")
+                raise ValueError("Role must be in roleDictionary",self.roleDictionary)
             
             if(classification in self.classificationDictionary):
                 self._classification = self.classificationDictionary[classification]
             else:
-                raise ValueError("classification must be in classificationDictionary")
+                raise ValueError("Classification must be in classificationDictionary",self.classificationDictionary)
         except Exception as e:
-            print("Errors have occured, reexecuting the class call is recomended",e)
-# get hire date 
-    def hireDate(self):
-        return self._hireDate
+            print("Errors have occured, reexecuting the class call is recomended. Reason:",e)
+        
+    # get hire date 
+    @property
+    def annualSalary(self):
+        return self._annualSalary
+    @annualSalary.setter
+    def annualSalary(self,salary):
+        if (salary >=0):
+            self._annualSalary = round(salary,2)
+        else:
+            print("Salary must not be negative. Nothing changed")
+
+    @property
     def rolePerson(self):
         return self._role
+    @rolePerson.setter
+    def rolePerson(self,role):
+        if(role in self.roleDictionary):  
+            self._role = self.roleDictionary[role]
+        else:
+            print("Role must be in roleDictionary",self.roleDictionary, "Nothing changed")
+
+    @property
     def classificationPerson(self):
         return self._classification
+    @classificationPerson.setter
+    def classificationPerson(self,classification):
+        if(classification in self.classificationDictionary):  
+            self._classification = self.classificationDictionary[classification]
+        else:
+            print("Role must be in roleDictionary",self.classificationDictionary, "Nothing changed")
+        
+    @property
+    def hireDate(self):
+        return self._hireDate
     
 
-    #get annual salary
-    @property
-    def annual_salary(self):
-        return self._annualSalary
+
+'''
+processing the data
+
+'''
+
+employeeList = []
+
+def getEmployees():
+    employees = open("employees.txt")
+    print(employees.read())
 
 from datetime import date
-from cis131_project1 import Person
-bob = Employee('bob','jon',1223,'sdfsdff','520-490-7681',date(2002,3,20),12321,'staff','Full-Time')
-print(bob.hireDate())
-'''
-# Create employees
-print('')
-Octavia = SalariedEmployee("Octavia","Melody",734235274,1832.62)
-Aurry = HourlyEmployee("Aurelia","Celune",412575349,45,21.72)
-Aura = HourlyEmployee("Lunar","Aura",745783123,42,1523.01)
-Lyra = SalariedEmployee("Lyra","Heartstrings",47329250,2475.23)
 
-# Print employees and their earnings sepreately
-print(Octavia)
-print(Octavia.earnings())
-print(Aurry)
-print(Aurry.earnings())
-print(Aura)
-print(Aura.earnings())
-print(Lyra)
-print(Lyra.earnings())
-print('')
-
-# List of employees
-employees = [Octavia,Aurry,Aura,Lyra]
-
-# Itterate through the list and print the employees and their earnings
-for i in employees:
-    print(i)
-    print(i.earnings())
-
-'''
+bob = Employee('bob','jon',1223,'sdfsdff','520-490-7681',2002,3,20,12321,'Staff','Full')
+print(bob.hireDate)
+getEmployees()
