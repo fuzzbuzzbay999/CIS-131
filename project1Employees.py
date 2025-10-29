@@ -193,10 +193,10 @@ def chosen(index):
             print("Thank you for using the system. ")
             print("Now exiting the program…")
         case 2:
-            print(f'{'LastName':20}{'LastName':20}{'LastName':20}{'LastName':20}')
+            print(f'{"LastName":<20}{"FirstName":<20}{"ID":<20}{"Phone":<20}')
             for emp in employeeList:
                 
-                print(f'{emp.lastName:10}\t\t{emp.firstName:10}\t\t{emp.idNumber:10}\t\t{emp.phoneNumber:10}')
+                print(f'{emp.lastName:<10}\t\t{emp.firstName:<10}\t\t{emp.idNumber:<10}\t\t{emp.phoneNumber:<10}')
         
 getEmployees()
 createMenu(3,['quit','employee optiuons','em,ployee cobtact'])
