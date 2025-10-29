@@ -4,8 +4,8 @@ action: A menu driven application, that reads a supplied text file and stores it
 Author: Declan Juliano
 Date:   10/29/2025
 '''
-# Imports
 
+# Imports
 from abc import ABC, abstractmethod
 from IPython import embed
 
@@ -20,7 +20,7 @@ class Person(ABC):
             self._last = last
 
             # if id is not 4 digits error
-            if(len(str(id)) ==4 and str(id).isdigit()):
+            if(len(str(id)) == 4 and str(id).isdigit()):
                 self._id = int(id)
             else:
                 raise ValueError("Id must be 4 digits")
@@ -28,7 +28,7 @@ class Person(ABC):
             self._email = email
 
             # If phone is not 12 digits error
-            if(len(str(phone))==12):
+            if(len(str(phone)) == 12):
                 self._phoneNumber = phone
             else:
                 raise ValueError("Phone number must be 12 characters")
@@ -70,7 +70,7 @@ class Person(ABC):
         return self._phoneNumber
     @phoneNumber.setter
     def phoneNumber(self, phone):
-        if (len(str(phone))==12):
+        if (len(str(phone)) == 12):
             self._phoneNumber = phone
         else:
             print("Phone number must be in the format xxx-xxx-xxxx. Nothing changed.")
@@ -104,7 +104,7 @@ class Employee(Person):
             self._hireDate = date(year,month,day)
 
             #if salary is negative then error
-            if(salary >=0):
+            if(salary >= 0):
                 self._annualSalary = round(salary,2)
             else:
                 raise ValueError("Annual salary must be >=0")
@@ -139,7 +139,7 @@ class Employee(Person):
         return self._annualSalary
     @annualSalary.setter
     def annualSalary(self,salary):
-        if (salary >=0):
+        if (salary >= 0):
             self._annualSalary = round(salary,2)
         else:
             print("Salary must not be negative. Nothing changed")
@@ -174,6 +174,8 @@ class Employee(Person):
     def __str__(self):
         return f'{self._first} {self._last}'
 
+
+
 '''
 Processing the data
 '''
@@ -183,8 +185,8 @@ from datetime import date
 import re
 
 # variables
-file="employees.txt"
-employeeList = []   # Holes all employees
+file = "employees.txt"    # File name to
+employeeList = []       # Holds all employees
 
 # function to itterate through supplied text document and populate the list
 def getEmployees():
@@ -196,10 +198,10 @@ def getEmployees():
     for i in employees.readlines():
 
         #remove all (\t, ,/) symbols and their duplicates, and replace them with commas. Split allong the commas into a list
-        employee=re.sub(r'[\t /]+',',',i).split(',')
+        employee = re.sub(r'[\t /]+',',',i).split(',')
         
         #if the sliced line is not 11 discard it (doesnt have the proper data feilds. Either its missing them or its a heading)
-        if(len(employee)==11):
+        if(len(employee) == 11):
             # assign the list indecies to their variables
             last = employee[0]
             first = employee[1]
@@ -248,7 +250,7 @@ def createMenu(num,items):
         index = int(input())
 
         # compair the number with the assosiated action
-        if(index==1):
+        if(index == 1):
             print("Thank you for using the system. ")
             print("Now exiting the program…")
             isRunning = False   # stop the loop case
