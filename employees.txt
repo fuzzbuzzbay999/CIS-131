@@ -4,7 +4,7 @@ Benton		Ryan		4071	Ryan.Benton@email.edu		520-555-4071	10/6/2020	Full		Staff	560
 Farrell		Dave		4009	Dave.Farrell@email.edu		520-555-4009	10/6/2018	Part		Staff	34000.00
 Stone		Matthew		4041	Matthew.Stone@email.edu		520-555-4041	8/23/2017	Full		Faculty	78000.00
 Martinez	Yesenia		4004	Yesenia.Martinez@email.edu	520-555-4004	8/3/2017	Part		Staff	30000.00
-Bernard		Mariah      4100	Mariah.Bernard@email.edu	520-555-4100	11/15/2016	Full		Faculty	120000.00
+Bernard		Mariah		4100	Mariah.Bernard@email.edu	520-555-4100	11/15/2016	Full		Faculty	120000.00
 Day		Erin		4006	Erin.Day@email.edu		520-555-4006	10/28/2015	Full		Staff	115000.00
 Oconnell	Summer		4099	Summer.Oconnell@email.edu	520-555-4099	4/12/2012	Full		Faculty	71000.00
 Stevens		Regina		4079	Regina.Stevens@email.edu	520-555-4079	11/28/2011	Part		Staff	48000.00

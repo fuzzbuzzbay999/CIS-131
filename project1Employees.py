@@ -28,6 +28,7 @@ class Person(ABC):
                 raise ValueError("Phone number must be 12 characters")
         except Exception as e:
             print("Errors have occured, reexecuting the class call is recomended. Reason:" , e)
+            raise
 
 # Get first name        
     @property
@@ -88,19 +89,21 @@ class Employee(Person):
             else:
                 raise ValueError("Annual salary must be >=0")
             
-            key = [key for key, val in self.roleDictionary.items() if val == role]
-            if(key):  
-                self._role = key
+            isRole = [key for key, val in self.roleDictionary.items() if val == role]
+            if(isRole):  
+                self._role = isRole
+                print(isRole)
             else:
                 raise ValueError("Role must be in roleDictionary",self.roleDictionary,role)
             
-            key = [key for key, val in self.roleDictionary.items() if val == role]
-            if(key):
-                self._role = key
+            isClassification = [key for key, val in self.classificationDictionary.items() if val == classification]
+            if(isClassification):
+                self._classification = isClassification
             else:
                 raise ValueError("Classification must be in classificationDictionary",self.classificationDictionary)
         except Exception as e:
             print("Errors have occured, reexecuting the class call is recomended. Reason:",e)
+            raise
         
     # get hire date 
     @property
@@ -166,12 +169,18 @@ def getEmployees():
             classification= employee[8]
             role = employee[9]
             salary = float(employee[10])
-            emp = Employee(first,last,id,email,phone,month,day,year,salary,role,classification)
-            employeeList.append(emp)
-            #print(f'Added employee {first} {last}')
+            try:
+                emp = Employee(first,last,id,email,phone,month,day,year,salary,role,classification)
+                employeeList.append(emp)
+            except Exception as e:
+                print ('skipping employee')
+
+            print(f'Added employee {first} {last} as clas {classification} and  role {role}')
+
+            
 
 
 
 getEmployees()
-
-#print(employeeList[1].idNumber)
+print(len(employeeList))
+print(employeeList)
