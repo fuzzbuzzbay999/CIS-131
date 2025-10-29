@@ -229,6 +229,7 @@ Output
 from datetime import date
 
 # Function for the menu, (num[amount of choices], items[list of what the items are])
+# It is set up this way to allow for more modularity when presented with sub menus and what not
 def createMenu(num,items):
     # display the numeric options using the supplied amount and prompts
     def options():
