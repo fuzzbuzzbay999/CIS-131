@@ -176,6 +176,13 @@ class Employee(Person):
 
 
 
+#**************student**************
+class Student(Person):
+    def __init__(self, first, last, id, email, phone):
+        super().__init__(first, last, id, email, phone)
+    
+
+
 '''
 Processing the data
 '''
@@ -185,13 +192,14 @@ from datetime import date
 import re
 
 # Variables
-file = "employees.txt"  # File name to
-employeeList = []       # Holds all employees
+employeeList = [] 
+studentList = []
 
-# Function to itterate through supplied text document and populate the list
-def getEmployees():
-  
-    global employeeList      # Ensure global control of employeeList
+
+# Function to itterate through supplied text document and populate the list (File name to read)
+def getEmployees(file): 
+    global employeeList 
+    employeeList = []       # Holds all employees
     employees = open(file)   # Open the text document
 
     # Read all lines and itterate through them
@@ -200,8 +208,8 @@ def getEmployees():
         # Remove all (\t, ,/) symbols and their duplicates, and replace them with commas. Split allong the commas into a list
         employee = re.sub(r'[\t /]+',',',i).split(',')
         
-        # If the sliced line is not 11 discard it (doesnt have the proper data feilds. Either its missing them or its a heading)
-        if(len(employee) == 11):
+        # If the sliced line is not 11 or has atleast 1 digit discard it (doesnt have the proper data feilds. Either its missing them or its a heading)
+        if(len(employee) == 11 and re.search(r'\d', i)):
             # Assign the list indecies to their variables (convert those that need to be int and float to such)
             last = employee[0]
             first = employee[1]
@@ -224,7 +232,23 @@ def getEmployees():
             
             # Display current progress
             print(f'Added employee {first} {last}')
-
+def getStudents(file):
+    global studentList
+    studentList = []
+    students = open(file)
+    for i in students.readlines():
+            student = re.sub(r'[\t /]+',',',i).split(',')
+            if(len(student) == 5 and re.search(r'\d', i)):
+                last = student[0]
+                first = student[1]
+                id = int(student[2])
+                email = student[3]
+                phone = student[4]
+                try:
+                    std =  Student(last,first,id,email,phone)
+                    studentList.append(std)
+                except:
+                    print('skipping employee')
 '''
 Output
 '''
@@ -275,7 +299,7 @@ def createMenu(num,items):
             print(f"I am sorry, {index} is not an option")
 
 # Populate the employeeList
-getEmployees()
-
+getEmployees("employees.txt")
+getStudents("students.txt")
 # Promp the user with the options of (quit, employment info, contact info)
 createMenu(3,['Quit','Display Employee Employment Information','Display Employee Contact Information'])
