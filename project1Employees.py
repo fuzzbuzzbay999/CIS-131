@@ -3,6 +3,8 @@ script: project1Employees.py
 action: A menu driven application, that reads a supplied text file and stores it to classes. Then uses text based navigation to view and manipulate the data. 
 Author: Declan Juliano
 Date:   10/29/2025
+    Ammended 10/30/2025
+            Added the student class, cleaned up the createMenu() function
 '''
 
 # Imports
@@ -31,7 +33,9 @@ class Person(ABC):
             if(len(str(phone)) == 12):
                 self._phoneNumber = phone
             else:
+                print(phone)
                 raise ValueError("Phone number must be 12 characters")
+                
             
             # Print errors and raise further
         except Exception as e:
@@ -178,8 +182,11 @@ class Employee(Person):
 
 #**************student**************
 class Student(Person):
+    # Define the class with people(first, last, id, email, phone)
     def __init__(self, first, last, id, email, phone):
         super().__init__(first, last, id, email, phone)
+    
+    # Inherit all methods
     
 
 
@@ -192,23 +199,23 @@ from datetime import date
 import re
 
 # Variables
-employeeList = [] 
-studentList = []
-
+employeeList = []   # List for all employees
+studentList = []    # List for all students
+isRunning = True    # Global state flag
 
 # Function to itterate through supplied text document and populate the list (File name to read)
 def getEmployees(file): 
-    global employeeList 
-    employeeList = []       # Holds all employees
-    employees = open(file)   # Open the text document
+    global employeeList     # Ensure global control of employeeList
+    employeeList = []       # Reset employeeList
+    employees = open(file)  # Open the text document
 
     # Read all lines and itterate through them
     for i in employees.readlines():
 
-        # Remove all (\t, ,/) symbols and their duplicates, and replace them with commas. Split allong the commas into a list
-        employee = re.sub(r'[\t /]+',',',i).split(',')
+        # Remove all (\t, ,/) symbols and their duplicates, and replace them with commas. Strip any new lines. Split allong the commas into a list
+        employee = re.sub(r'[\t /]+',',',i).strip().split(',')
         
-        # If the sliced line is not 11 or has atleast 1 digit discard it (doesnt have the proper data feilds. Either its missing them or its a heading)
+        # If the sliced line is not 11 or have atleast 1 digit discard it (doesnt have the proper data feilds. Either its missing them or its a heading)
         if(len(employee) == 11 and re.search(r'\d', i)):
             # Assign the list indecies to their variables (convert those that need to be int and float to such)
             last = employee[0]
@@ -223,32 +230,44 @@ def getEmployees(file):
             role = employee[9]
             salary = float(employee[10])
 
-            # Atempt to make a new class object and append it to the employeeList. (if any errors are thrown durring initialization, then print that and skip the employee)
+            # Atempt to make a new class object and append it to the employeeList. (if any errors are thrown durring initialization, then print them and skip the employee)
             try:
                 emp = Employee(first,last,id,email,phone,month,day,year,salary,role,classification)
                 employeeList.append(emp)
+                print(f'Added employee {first} {last}')     # Display current progress
             except:
                 print ('skipping employee')
             
-            # Display current progress
-            print(f'Added employee {first} {last}')
+
+            
 def getStudents(file):
-    global studentList
-    studentList = []
-    students = open(file)
+    global studentList      # Ensure global control of studentList
+    studentList = []        # Reset student list
+    students = open(file)   # Open the text document
+    
+    #  Read all lines and itterate through them
     for i in students.readlines():
-            student = re.sub(r'[\t /]+',',',i).split(',')
+            
+            # Remove all (\t, ,/) symbols and their duplicates, and replace them with commas. Strip any new lines. Split allong the commas into a list
+            student = re.sub(r'[\t /]+',',',i).strip().split(',')
+
+            # If the sliced line is not 5 or have atleast 1 digit discard it (doesnt have the proper data feilds. Either its missing them or its a heading)
             if(len(student) == 5 and re.search(r'\d', i)):
+                # Assign the list indecies to their variables (convert those that need to be int and float to such)
                 last = student[0]
                 first = student[1]
                 id = int(student[2])
                 email = student[3]
                 phone = student[4]
+
+                # Atempt to make a new class object and append it to the employeeList. (if any errors are thrown durring initialization, then print them and skip the employee)
                 try:
                     std =  Student(last,first,id,email,phone)
                     studentList.append(std)
+                    print(f'Added student {first} {last}')      # Display current progress
                 except:
-                    print('skipping employee')
+                    print('skipping student')
+               
 '''
 Output
 '''
@@ -257,49 +276,65 @@ from datetime import date
 
 # Function for the menu, (num[amount of choices], items[list of what the items are])
 # It is set up this way to allow for more modularity when presented with sub menus and what not
-def createMenu(num,items):
-    # Display the numeric options using the supplied amount and prompts
-    def options():
+def createMenu():
+    
+    # Menu items
+    items = ['Quit','Display Employee Employment Information','Display Employee Contact Information']
+    # Number of menu items
+    num = len(items)
+    
+    # Display the numeric options using the above amounts
+    def options(items):
         print('\n')
         print("Please select an option below\n")
         for i in range(0,num):
             print(f'{i+1}. {items[i]}')
 
-    # Loop condition
-    isRunning = True
+    # Switch case for optioins
+    def choices(index):
+        match index:
+            # Compare the number with the assosiated action
+            case '1':    # Option 1
+                print("Thank you for using the system. ")
+                print("Now exiting the program…")
+                global isRunning    # Ensure global control
+                isRunning = False   # Trip the flag
+                
+
+            case '2':  # Option 2
+                # Header
+                print(f'{"LastName":<20}{"FirstName":<20}{"ID":<20}{"Email":<30}{"Phone":<20}{"HireDate":<20}{"Classification":<20}{"Role":<20}{"Salary":<20}')
+                # Body
+                for emp in employeeList:
+                    print(f'{emp.lastName:<20}{emp.firstName:<20}{emp.idNumber:<20}{emp.emailAddress:<30}{emp.phoneNumber:<20}{str(emp.hireDate):<20}{str(emp.classificationPerson):<20}{str(emp.rolePerson):<20}{emp.annualSalary:<20.2f}')        
+            
+            case '3':   # Option 3
+                # Header
+                print(f'{"LastName":<20}{"FirstName":<20}{"ID":<20}{"Phone":<20}')
+                # Body
+                for emp in employeeList:
+                    print(f'{emp.lastName:<20}{emp.firstName:<20}{emp.idNumber:<20}{emp.phoneNumber:<20}')
+            
+            case _: # No choice for that input
+                print(f"I am sorry, {index} is not an option")
+    
+    # display the options and prompt for input
+    def getChoice():
+        options(items)
+        return input()
+
+    # While running call getChoice() and select the input
     while(isRunning):
-        # Print the options
-        options()
-        # Prompt the user for a number
-        index = int(input())
+        choice = getChoice()
+        choices(choice)
 
-        # Compare the number with the assosiated action
-        if(index == 1):     # Option 1
-            print("Thank you for using the system. ")
-            print("Now exiting the program…")
-            isRunning = False   # Stop the loop condition
-            break               # Imediately break the loop to stop further execution
+        
+        
 
-        elif(index == 2):   # Option 2
-            # Header
-            print(f'{"LastName":<20}{"FirstName":<20}{"ID":<20}{"Email":<30}{"Phone":<20}{"HireDate":<20}{"Classification":<20}{"Role":<20}{"Salary":<20}')
-            # Body
-            for emp in employeeList:
-                print(f'{emp.lastName:<20}{emp.firstName:<20}{emp.idNumber:<20}{emp.emailAddress:<30}{emp.phoneNumber:<20}{str(emp.hireDate):<20}{str(emp.classificationPerson):<20}{str(emp.rolePerson):<20}{emp.annualSalary:<20.2f}')        
-        
-        elif(index == 3):   # Option 3
-            # Header
-            print(f'{"LastName":<20}{"FirstName":<20}{"ID":<20}{"Phone":<20}')
-            # Body
-            for emp in employeeList:
-                print(f'{emp.lastName:<20}{emp.firstName:<20}{emp.idNumber:<20}{emp.phoneNumber:<20}')
-        
-        else:
-            # No choice for that number
-            print(f"I am sorry, {index} is not an option")
 
 # Populate the employeeList
 getEmployees("employees.txt")
 getStudents("students.txt")
+
 # Promp the user with the options of (quit, employment info, contact info)
-createMenu(3,['Quit','Display Employee Employment Information','Display Employee Contact Information'])
+createMenu()
