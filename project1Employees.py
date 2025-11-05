@@ -37,12 +37,12 @@ class Person(ABC):
                 raise ValueError("Phone number must be 12 characters")
                 
             
-            # Print errors and raise further
+        # Print errors and raise further
         except Exception as e:
             print("Errors have occured, reexecuting the class call is recomended. Reason:" , e)
             raise
 
-# Get first name        
+    # Get first name        
     @property
     def firstName(self):
         return self._first
@@ -50,7 +50,7 @@ class Person(ABC):
     def firstName(self,first):
         self._first = first
 
-# Get last name
+    # Get last name
     @property
     def lastName(self):
         return self._last
@@ -58,17 +58,17 @@ class Person(ABC):
     def lastName(self,last):
         self._last = last
 
-# Get id number
+    # Get id number
     @property
     def idNumber(self):
         return self._id
     
-# Get email
+    # Get email
     @property
     def emailAddress(self):
         return self._email
     
-# Get phone number (if changing and its not 12 digits dont change it)
+    # Get phone number (if changing and its not 12 digits dont change it)
     @property
     def phoneNumber(self):
         return self._phoneNumber
@@ -327,10 +327,6 @@ def createMenu():
     while(isRunning):
         choice = getChoice()
         choices(choice)
-
-        
-        
-
 
 # Populate the employeeList
 getEmployees("employees.txt")
