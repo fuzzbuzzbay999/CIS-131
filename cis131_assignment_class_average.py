@@ -27,4 +27,4 @@ else:
 #write the list of grades to grades.txt
 writer = open("grades.txt",'w')
 writer.writelines(grades)
-writer.close
+writer.close()
