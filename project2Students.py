@@ -412,8 +412,8 @@ def createMenu():
                 # Header              
                 print(f'{"LastName":<20}{"FirstName":<20}{"ID":<20}{"Phone":<20}')
                 # Body
-                people = employeeList+studentList
-                for p in people:
+                peorsonList = employeeList+studentList
+                for p in peorsonList:
                     print(f'{p.lastName:<20}{p.firstName:<20}{p.idNumber:<20}{p.phoneNumber:<20}')
             case _: # No choice for that input
                 print(f"I am sorry, {index} is not an option")
