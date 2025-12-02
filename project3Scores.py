@@ -246,6 +246,9 @@ class Employee(Person):
 
 #**************student**************
 class Student(Person):
+
+    courseNameList = ['Art', 'Latin', 'Greek', 'Mathematics', 'Science', 'Painting', 'Sculpting']
+    
     # Define the class with people(first, last, id, email, phone)
     def __init__(self, first, last, id, email, phone):
         """Initialize Student
@@ -255,8 +258,31 @@ class Student(Person):
                   email (str): email address
                   phone (str): phone number in the format xxx-xxx-xxxx
         """        # Use the parent
-
         super().__init__(first, last, id, email, phone)
+        
+        self.courseStudentDict = {}
+
+    def setStudentScores(self,subjects,scores):
+        for i in range(len(subjects)):
+            try:
+                subject = subjects[i]
+                if(subject in self.courseNameList):
+                    if(0<=int(scores[i])<=100):
+                        self.courseStudentDict[subject] = scores[i]
+                    else:
+                        self.courseStudentDict[subject] = 'Invalid'
+                        raise ValueError(f'{scores[i]} is an invalid score')
+                else:
+                    self.courseStudentDict[subject] = 'Invalid'
+                    raise ValueError(f'{subject} is not in the allowed subjects')
+            except Exception as e:
+                print("Errors have occured, reexecuting the function call is recomended. Reason:" , e)
+
+    def getStudentAcedemics(self):
+        scores = list(self.courseStudentDict.values())
+        return scores
+
+        
     
     # Inherit all methods
     
@@ -345,7 +371,29 @@ def getStudents(file):
                     print(f'Added student {first} {last}')      # Display current progress
                 except:
                     print('skipping student')
-               
+
+def getStudentScores(file):
+    gradeBook = open(file)
+    heading = []
+
+    for i in gradeBook.readlines():
+        line = re.sub(r'[\t /]+',',',i).strip().split(',')
+        if re.search(r'\d', i):
+            scores = line
+            for std in studentList:
+                try:
+                    if (int(std.idNumber) == int(scores[0])):
+                        print(f'setting scores for {std.firstName}')
+                        std.setStudentScores(heading[1::],scores[1::])
+                except:
+                    print('error')
+        else:
+            print('is heading')
+            heading = line
+            print(f'{heading}')
+
+    return heading
+
 '''
 Output
 '''
@@ -359,7 +407,7 @@ def createMenu():
     """
     
     # Menu items
-    items = ['Quit','Display Employee Employment Information','Display Employee Contact Information','Display Student Contact Information','Display All Person Contact Information']
+    items = ['Quit','Display Employee Employment Information','Display Employee Contact Information','Display Student Contact Information','Display All Person Contact Information','Display Student Scores']
     # Number of menu items
     num = len(items)
     
@@ -387,7 +435,7 @@ def createMenu():
                 global isRunning    # Ensure global control
                 isRunning = False   # Trip the flag
                 
-            case '2':  # Option 2
+            case '2':   # Option 2
                 # Header
                 print(f'{"LastName":<20}{"FirstName":<20}{"ID":<10}{"Email":<30}{"Phone":<20}{"HireDate":<20}{"Classification":<20}{"Role":<20}{"Salary":<20}')
                 # Body
@@ -401,20 +449,30 @@ def createMenu():
                 for emp in employeeList:
                     print(f'{emp.lastName:<20}{emp.firstName:<20}{emp.idNumber:<10}{emp.emailAddress:<30}{emp.phoneNumber:<20}')
 
-            case '4': # Option 4
+            case '4':   # Option 4
                 # Header
                 print(f'{"LastName":<20}{"FirstName":<20}{"ID":<10}{"Email":<30}{"Phone":<20}')
                 # Body
                 for std in studentList:
                     print(f'{std.lastName:<20}{std.firstName:<20}{std.idNumber:<10}{std.emailAddress:<30}{std.phoneNumber:<20}')
 
-            case '5': # Option 5
+            case '5':   # Option 5
                 # Header              
                 print(f'{"LastName":<20}{"FirstName":<20}{"ID":<10}{"Email":<30}{"Phone":<20}')
                 # Body
                 peorsonList = employeeList+studentList
                 for p in peorsonList:
                     print(f'{p.lastName:<20}{p.firstName:<20}{p.idNumber:<10}{p.emailAddress:<30}{p.phoneNumber:<20}')
+            case '6':   # option 6
+                # Header              
+                classes = list(getStudentScores("scores.txt")[1::])
+                classes = [f'{i:<15}' for i in classes]
+                classes = ''.join(classes)
+                print(f'{"LastName":<20}{"FirstName":<20}{"ID":<10}{classes}')
+                for std in studentList:
+                    grades = [ f'{i:<15}' for i in std.getStudentAcedemics()]
+                    grades = ''.join(grades)
+                    print(f'{std.lastName:<20}{std.firstName:<20}{std.idNumber:<10}{grades}')
             case _: # No choice for that input
                 print(f"I am sorry, {index} is not an option")
     
@@ -435,6 +493,6 @@ def createMenu():
 # Populate employeeList and studentList
 getEmployees("employees.txt")
 getStudents("students.txt")
-
+getStudentScores("scores.txt")
 # Promp the user with the options of (quit, employment info, contact info)
 createMenu()
