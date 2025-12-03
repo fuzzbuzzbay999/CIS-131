@@ -5,6 +5,8 @@ Author: Declan Juliano
 Date:   10/29/2025
     Ammended 10/30/2025
             Added the student class, cleaned up the createMenu() function
+    Ammended 12/02/2025
+            Added student scores functionality
 '''
 
 # Imports
@@ -245,7 +247,7 @@ class Employee(Person):
 
 #**************student**************
 class Student(Person):
-
+    # List of valid courses
     courseNameList = ['Art', 'Latin', 'Greek', 'Mathematics', 'Science', 'Painting', 'Sculpting']
     
     # Define the class with people(first, last, id, email, phone)
@@ -257,27 +259,44 @@ class Student(Person):
                   email (str): email address
                   phone (str): phone number in the format xxx-xxx-xxxx
         """        # Use the parent
-        
         super().__init__(first, last, id, email, phone)
+
+        # instance dictionary for storing student scores
         self.courseStudentDict = {}
 
+    # Set student scores (subjects[list of subjects], scores[list of scores])
     def setStudentScores(self,subjects,scores):
+        """setStudentScores
+            args: subjects (list): list of subjects
+                  scores (list): list of scores
+        """ 
+
+        # Itterate through the subjects and scores using the subjects length
         for i in range(len(subjects)):
             try:
+                # Get the current subject
                 subject = subjects[i]
+                # If the subject is valid and the score is between 0 and 100 add it to the dict, else add INVALID and raise error
                 if(subject in self.courseNameList):
                     if(0<=int(scores[i])<=100):
                         self.courseStudentDict[subject] = scores[i]
                     else:
+                        # Mark score as INVALID if out of range
                         self.courseStudentDict[subject] = 'INVALID'
                         raise ValueError(f'{scores[i]} is an invalid score')
                 else:
+                    # Mark score as INVALID if the subject is not in allowed courses
                     self.courseStudentDict[subject] = 'INVALID'
                     raise ValueError(f'{subject} was not found in allowed courses')
             except Exception as e:
                 print("Errors have occured, reexecuting the function call is recomended. Reason:" , e)
-
+    
+    # Get student academics (returns list of scores from the dict)
     def getStudentAcedemics(self):
+        """getStudentAcedemics
+            args: none
+            returns: list of scores
+        """ 
         scores = list(self.courseStudentDict.values())
         return scores
 
@@ -324,6 +343,7 @@ def getEmployees(file):
                 print(f'Added employee {first} {last}')     # Display current progress
             except:
                 print ('skipping employee')
+
             
 # Function to itterate through supplied text document and populate the list (File name to read)
 def getStudents(file):
@@ -357,34 +377,49 @@ def getStudents(file):
                 except:
                     print('skipping student')
 
+# Function to itterate through supplied text document and set student scores (File name to read)
 def getStudentScores(file):
+    """getStudentScores
+        args: file (str): text document to read
+        returns: none
+    """
+    # Open the text document
     gradeBook = open(file)
     heading = []
-
+    # Read all lines and itterate through them
     for i in gradeBook.readlines():
+        #  Remove all (\t, ,/) symbols and their duplicates, and replace them with commas. Strip any new lines. Split allong the commas into a list
         line = re.sub(r'[\t /]+',',',i).strip().split(',')
+        # If the line has a digit its a score line, else its a heading line
         if re.search(r'\d', i):
             scores = line
+            # Itterate through all students to find the matching id number
             for std in studentList:
                 try:
+                    # If the id numbers match set the scores for that student
                     if (int(std.idNumber) == int(scores[0])):
                         print(f'Setting scores for {std.firstName}')
+                        # Set the student scores (heading[1::] = subjects, scores[1::] = scores)
                         std.setStudentScores(heading[1::],scores[1::])
                 except:
                     print('error')
         else:
             heading = line
 
-    return heading
-
+# Function to get the headings from the scores file (File name to read)
 def getheadings(file):
-    lines = open(file).readlines()
+    """getheadings
+        args: file (str): text document to read
+        returns: list of headings
+    """
+    lines = open(file).readlines()\
+    # Remove all (\t, ,/) symbols and their duplicates, and replace them with commas. Strip any new lines. Split allong the commas into a list
     line = re.sub(r'[\t /]+',',',lines[0]).strip().split(',')
     return line[1::]
 '''
 Output
 '''
-# Function for the menu, (num[amount of choices], items[list of what the items are])
+# Function for the menu
 # It is set up this way to allow for more modularity when presented with sub menus and what not
 def createMenu():
     """Create the menu for user interaction
@@ -453,6 +488,7 @@ def createMenu():
                 classes = [f'{i:<15}' for i in classes]
                 classes = ''.join(classes)
                 print(f'{"LastName":<20}{"FirstName":<20}{"ID":<10}{classes}')
+                # Body
                 for std in studentList:
                     grades = [ f'{i:<15}' for i in std.getStudentAcedemics()]
                     grades = ''.join(grades)
@@ -480,14 +516,14 @@ def main():
     employeeList = []   # List for all employees
     studentList = []    # List for all students
 
-    # Import
-    from datetime import date
 
-    # Populate employeeList and studentList
+
+    # Populate employeeList and studentList and student scores
     getEmployees("employees.txt")
     getStudents("students.txt")
     getStudentScores("scores.txt")
-    # Prompt the user with the options of (quit, employment info, contact info)
+
+    # Prompt the user with the options of (quit, employment info, contact info, student contact info, all contact info, student scores)
     createMenu()
 
 main()
