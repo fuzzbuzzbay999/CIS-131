@@ -10,7 +10,10 @@ Date:   10/29/2025
 # Imports
 from abc import ABC, abstractmethod
 from IPython import embed
+from datetime import date
+import re
 
+isRunning = True    # Global state flag
 #**************Abstract person class**************
 class Person(ABC):
     # define the class (first, last, id, email, phone)
@@ -111,8 +114,6 @@ class Person(ABC):
         """Returns the string of the person
         """
         return f'{self._first} {self._last}'
-
-
 
 #**************employee**************
 class Employee(Person):
@@ -242,8 +243,6 @@ class Employee(Person):
         """
         return f'{self._first} {self._last}'
 
-
-
 #**************student**************
 class Student(Person):
 
@@ -258,8 +257,8 @@ class Student(Person):
                   email (str): email address
                   phone (str): phone number in the format xxx-xxx-xxxx
         """        # Use the parent
-        super().__init__(first, last, id, email, phone)
         
+        super().__init__(first, last, id, email, phone)
         self.courseStudentDict = {}
 
     def setStudentScores(self,subjects,scores):
@@ -270,11 +269,11 @@ class Student(Person):
                     if(0<=int(scores[i])<=100):
                         self.courseStudentDict[subject] = scores[i]
                     else:
-                        self.courseStudentDict[subject] = 'Invalid'
+                        self.courseStudentDict[subject] = 'INVALID'
                         raise ValueError(f'{scores[i]} is an invalid score')
                 else:
-                    self.courseStudentDict[subject] = 'Invalid'
-                    raise ValueError(f'{subject} is not in the allowed subjects')
+                    self.courseStudentDict[subject] = 'INVALID'
+                    raise ValueError(f'{subject} was not found in allowed courses')
             except Exception as e:
                 print("Errors have occured, reexecuting the function call is recomended. Reason:" , e)
 
@@ -282,24 +281,10 @@ class Student(Person):
         scores = list(self.courseStudentDict.values())
         return scores
 
-        
-    
-    # Inherit all methods
-    
-
 
 '''
 Processing the data
 '''
-
-# Import
-from datetime import date
-import re
-
-# Variables
-employeeList = []   # List for all employees
-studentList = []    # List for all students
-isRunning = True    # Global state flag
 
 # Function to itterate through supplied text document and populate the list (File name to read)
 def getEmployees(file): 
@@ -383,23 +368,22 @@ def getStudentScores(file):
             for std in studentList:
                 try:
                     if (int(std.idNumber) == int(scores[0])):
-                        print(f'setting scores for {std.firstName}')
+                        print(f'Setting scores for {std.firstName}')
                         std.setStudentScores(heading[1::],scores[1::])
                 except:
                     print('error')
         else:
-            print('is heading')
             heading = line
-            print(f'{heading}')
 
     return heading
 
+def getheadings(file):
+    lines = open(file).readlines()
+    line = re.sub(r'[\t /]+',',',lines[0]).strip().split(',')
+    return line[1::]
 '''
 Output
 '''
-# Import
-from datetime import date
-
 # Function for the menu, (num[amount of choices], items[list of what the items are])
 # It is set up this way to allow for more modularity when presented with sub menus and what not
 def createMenu():
@@ -465,7 +449,7 @@ def createMenu():
                     print(f'{p.lastName:<20}{p.firstName:<20}{p.idNumber:<10}{p.emailAddress:<30}{p.phoneNumber:<20}')
             case '6':   # option 6
                 # Header              
-                classes = list(getStudentScores("scores.txt")[1::])
+                classes = list(getheadings('scores.txt'))
                 classes = [f'{i:<15}' for i in classes]
                 classes = ''.join(classes)
                 print(f'{"LastName":<20}{"FirstName":<20}{"ID":<10}{classes}')
@@ -490,9 +474,20 @@ def createMenu():
         print('') # New line before the output
         choices(choice)
 
-# Populate employeeList and studentList
-getEmployees("employees.txt")
-getStudents("students.txt")
-getStudentScores("scores.txt")
-# Promp the user with the options of (quit, employment info, contact info)
-createMenu()
+
+def main():
+    # Variables
+    employeeList = []   # List for all employees
+    studentList = []    # List for all students
+
+    # Import
+    from datetime import date
+
+    # Populate employeeList and studentList
+    getEmployees("employees.txt")
+    getStudents("students.txt")
+    getStudentScores("scores.txt")
+    # Prompt the user with the options of (quit, employment info, contact info)
+    createMenu()
+
+main()
