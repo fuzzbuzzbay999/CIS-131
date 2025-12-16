@@ -11,6 +11,9 @@ Date:   10/29/2025
             Changed option 6 for grade report to show high, low, average per subject and overall high low average and letter grade
             Added lookup by ID functionality
             Added honor roll functionality
+    Ammended 12/15/2025
+            Added sorting functionality for full academic report by last name and student ID
+            REMOVED global studentList and employeeList variables, passing them as parameters instead
 '''
 
 # Imports
@@ -273,6 +276,7 @@ class Student(Person):
         """setStudentScores
             args: subjects (list): list of subjects
                   scores (list): list of scores
+            returns: none
         """ 
 
         # Itterate through the subjects and scores using the subjects length
@@ -317,20 +321,19 @@ class Student(Person):
             grade = 'F'
         scores = list(self.courseStudentDict.values())
         return scores+[high,low,avg,grade]
-
-
+    
 
 '''
 Processing the data
 '''
 
 # Function to itterate through supplied text document and populate the list (File name to read)
-def getEmployees(file, empList): 
+def getEmployees(file, employeeList): 
     """Populate the employeeList from a text document
         args: file (str): text document to read
+              employeeList (list): list of employees
+        returns: list of employees
     """
-
-    employeeList = empList  # List for all employees
     employees = open(file)  # Open the text document
 
     # Read all lines and itterate through them
@@ -361,15 +364,16 @@ def getEmployees(file, empList):
                 print(f'Added employee {first} {last}')     # Display current progress
             except:
                 print ('skipping employee')
-
+    return employeeList
             
 # Function to itterate through supplied text document and populate the list (File name to read)
-def getStudents(file,stdList):
+def getStudents(file,studentList):
     """Populate the studentList from a text document
         args: file (str): text document to read
+              studentList (list): list of students
+        returns: list of students
     """
 
-    studentList = stdList   # List for all students
     students = open(file)   # Open the text document
     
     #  Read all lines and itterate through them
@@ -394,14 +398,15 @@ def getStudents(file,stdList):
                     print(f'Added student {first} {last}')      # Display current progress
                 except:
                     print('skipping student')
+    return studentList
 
 # Function to itterate through supplied text document and set student scores (File name to read)
-def getStudentScores(file, stdList):
+def getStudentScores(file, studentList):
     """getStudentScores
         args: file (str): text document to read
+              studentList (list): list of students
         returns: none
     """
-    studentList = stdList       # List for all students
 
     # Open the text document
     gradeBook = open(file)
@@ -439,7 +444,7 @@ def getheadings(file):
 
 def displayFullAcademicReport(studentList):
     """displayFullAcademicReport
-        args: stdList (list): list of students
+        args: studentList (list): list of students
         returns: none
     """
     # Header  
@@ -493,21 +498,23 @@ Output
 '''
 # Function for the menu
 # It is set up this way to allow for more modularity when presented with sub menus and what not
-def createMenu(empList,stdList):
+def createMenu(employeeList,studentList):
     """Create the menu for user interaction
+        args: employeeList (list): list of employees
+              studentList (list): list of students
+        returns: none
     """
 
-    studentList = stdList    # List for all students
-    employeeList = empList      # List for all employees 
-
     # Menu items
-    items = ['Quit','Display Employee Employment Information','Display Employee Contact Information','Display Student Contact Information','Display All Person Contact Information','Display Full Student Academic report','Display Academic Report for one Student','Display Honor Roll']
+    items = ['Quit','Display Employee Employment Information','Display Employee Contact Information','Display Student Contact Information','Display All Person Contact Information','Display Full Student Academic report','Display Academic Report for one Student','Display Honor Roll','Display Full Academic Report sorted by Last Name', 'Display Full Academic Report sorted by Student ID']
+    # Number of menu items
     num = len(items)
     
     # Display the numeric options using the above amounts
     def options(items):
         """Display the options to the user
             args: items (list): list of menu items
+            returns: none
         """
         
         print('\n')
@@ -519,7 +526,9 @@ def createMenu(empList,stdList):
     def choices(index):
         """Select the action based on user input
             args: index (str): user input
+            returns: none
         """
+
         match index:
             # Compare the number with the assosiated action
             case '1':    # Option 1
@@ -558,8 +567,7 @@ def createMenu(empList,stdList):
                     print(f'{p.lastName:<20}{p.firstName:<20}{p.idNumber:<10}{p.emailAddress:<30}{p.phoneNumber:<20}')
 
             case '6':   # option 6
-            
-                displayFullAcademicReport(studentList)
+                displayFullAcademicReport(studentList)  # display the report
 
             case '7': # option 7
                 idFound = False   # flag for if the id was found
@@ -603,7 +611,19 @@ def createMenu(empList,stdList):
                         grades = [ f'{i:<15}' for i in std.getStudentAcedemicReport()]  # get the entire report and convert it to a fstring
                         grades = ''.join(grades)
                         print(f'{std.lastName:<20}{std.firstName:<20}{std.idNumber:<10}{grades}')   # print the student info and grades
-        
+            
+            case '9': # option 9
+                tempList = []   # temporary list for sorting or python freaks out
+                tempList = sorted(studentList, key=lambda x: x.lastName)  # sort by last name
+
+                displayFullAcademicReport(tempList) # display the report
+            
+            case '10': # option 10
+                tempList = []   # temporary list for sorting or python freaks out
+                tempList = sorted(studentList, key=lambda x: x.idNumber)  # sort by id number
+
+                displayFullAcademicReport(tempList) # display the report
+
             case _: # No choice for that input
                 print(f"I am sorry, {index} is not an option")
 
@@ -611,6 +631,7 @@ def createMenu(empList,stdList):
     def getChoice():
         """Get the user choice
             args: none
+            returns: str user input
         """
         options(items)
         return input()
@@ -626,13 +647,18 @@ empleList = []   # List for all employees
 studList = []    # List for all students
 
 def main(empList,stdList):
-
+    """Main function to run the program
+        args: empList (list): list of employees
+              stdList (list): list of students
+        returns: none
+    """
     # Populate employeeList and studentList and student scores
-    getEmployees("employees.txt", empList)
-    getStudents("students.txt", stdList)
+    empList = getEmployees("employees.txt", empList)
+    stdList = getStudents("students.txt", stdList)
     getStudentScores("scores.txt",stdList)
 
-    # Prompt the user with the options of (quit, employment info, contact info, student contact info, all contact info, student scores)
+    # Prompt the user with the menu options
     createMenu(empList, stdList)
 
+# Run the main function
 main(empleList,studList)

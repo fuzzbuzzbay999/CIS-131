@@ -1,0 +1,17 @@
+1 first pickle is imported. then the dictionary cars is serialized. so it can be sent off as a single package. then it is unserialized so it can be read.
+
+2 a function or module can be called by name with parenthesis holding any needed parameters or an alias using the as keyword
+
+3. Yes python can be mixed with other languages, although it has its own caveats, mainly datatype mismatches and how objects are allocated to memory.
+
+4. to copy an object in python the .copy() function can be used
+
+5. arguments that are immutable ie int, float, tuple .. are passed by value. and mutable objects ie list, dict and custom classes are referenced
+
+6. negative indices in python are indicies starting from the end, -1 is the last -2 is the second from last, they are used to easily access the ends of lists no need for len(list)-1
+
+7. the most used python GUI is Tkinter
+
+8. Java and C are the languages I learned first and java is the one I pushed to be fluent in.
+
+9. Object oriented programing is helpful because it allows the usage of building blocks. streamlining complex/repetative tasks, it also allows libraries to be used that keeps you from reinventing the wheel, because chances are someone has already solved the problem you are trying to do, only more elegantly and refined.
